@@ -3,6 +3,8 @@ package nino.potskhishvili.task1.model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,13 +18,14 @@ public class Book {
     private Long id;
 
     String title;
+
     String description;
 
-    @ManyToMany(mappedBy = "categories",cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Author> author=new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Author> author = new ArrayList<>();
 
-    @ToString.Exclude
-    @OneToMany( mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tag> tag = new ArrayList<>();
 }
